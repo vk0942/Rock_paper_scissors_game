@@ -1,13 +1,11 @@
-
 let playerscore=0 , computerscore=0;
-
-
 let choices = document.querySelectorAll('.choice');
 let player_choicedom = document.querySelector('.player_choice');
 let computer_choicedom = document.querySelector('.computer_choice');
 let player_scoredom = document.querySelector('.player_score');
 let computer_scoredom = document.querySelector('.computer_score');
 let round_result = document.querySelector('.result');
+let game_status = document.querySelector('#status');
 
 choices.forEach((choice) => {
     choice.addEventListener("click",() =>{
@@ -16,13 +14,13 @@ choices.forEach((choice) => {
         let str = choice.textContent;
         if(str=='Paper') xp=1;
         if(str=='Scissor') xp=2;
-        player_choicedom.textContent = choice.textContent;
+        player_choicedom.textContent = `Player Choice : ${choice.textContent}`;
         if(xc==0){
-            computer_choicedom.textContent = "Rock";
+            computer_choicedom.textContent = "Computer's Choice : Rock";
         }else if(xc==1){
-            computer_choicedom.textContent = "Paper";
+            computer_choicedom.textContent = "Computer's Choice ; Paper";
         }else if(xc==2){
-            computer_choicedom.textContent = "Scissor";
+            computer_choicedom.textContent = "Computer's Choice ; Scissor";
         }
         let res = PlayRound(xp,xc);
         if(res==-1){
@@ -32,6 +30,11 @@ choices.forEach((choice) => {
             round_result.textContent = "Player won this round";
         }else{
             round_result.textContent = "It's a Draw";
+        }
+        if(playerscore>=3){
+           window.location.href='player-won.html';
+        }else if (computerscore>=3){
+            window.location.href='player-lost.html';
         }
     })
 })
@@ -85,10 +88,9 @@ function PlayRound(humanchoice , computerchoice){
 }
 function playGame()
 {
-    let t = 1;
     playerscore=0; 
     computerscore=0;
-    while(t--){
+    while(playerscore<3 && computerscore< 3){
         let humanchoice = getHumanChoice();
         let computerchoice = getComputerChoice();
 
@@ -97,13 +99,7 @@ function playGame()
         console.log(`Computer_Score : ${computerscore}`);
 
     }
-    if(playerscore>computerscore){
-        console.log("COngratulations Player WON !!!");
-    }else if(playerscore<computerscore){
-        console.log("OOPS !! Better Luck next time ..");
-    }else {
-        console.log("It's a DRAW");
-    }
+
 }
 // playGame();
 function Restart(){
